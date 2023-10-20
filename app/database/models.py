@@ -7,7 +7,7 @@ Base = declarative_base()
 
 class Card(Base):
     __tablename__ = "cards"
-    id = Column(Integer, primary_key=True, index=True)
+    id = Column(Integer, primary_key=True, index=True, autoincrement=True)
     title = Column(String, comment="Card title", nullable=False)
     description = Column(String, comment="Card description", nullable=True)
 
@@ -19,7 +19,7 @@ class Card(Base):
 
 class Action(Base):
     __tablename__ = "actions"
-    id = Column(Integer, primary_key=True, index=True)
+    id = Column(Integer, primary_key=True, index=True, autoincrement=True)
     card_id = Column(Integer, ForeignKey('cards.id'), nullable=False)
     value = Column(String, comment="Action value", nullable=False)
     type = Column(Enum(ActionType), comment="Action type")

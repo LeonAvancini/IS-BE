@@ -10,25 +10,46 @@ class ActionType(Enum):
     other = "Other"
 
 
-class ActionContent(BaseModel):
+#
+# class ActionContent(BaseModel):
+#     external_url: Optional[str] = ""
+#     img_url: Optional[str] = ""
+
+
+class ActionCreate(BaseModel):
+    value: str
+    type: ActionType
+    external_url: Optional[str] = ""
+    img_url: Optional[str] = ""
+    # content: ActionContent  # Add a content property for the ActionContent
+
+
+class ActionBase(BaseModel):
+    value: str
+    type: ActionType
     external_url: Optional[str] = ""
     img_url: Optional[str] = ""
 
 
-class Action(BaseModel):
-    id: int
-    value: str
-    type: ActionType
-    # content: ActionContent TODO: Add this property instead have all on this object
-    external_url: Optional[str]
-    img_url: Optional[str]
+# content: ActionContent  # Add the content property here
 
 
-class Card(BaseModel):
+class Action(ActionBase):
     id: int
+
+
+class CardBase(BaseModel):
     title: str
     description: Optional[str]
-    actions: List[Action]
+
+
+class CardCreate(CardBase):
+    actions: List[ActionCreate]  # Use ActionCreate for creating actions
+
+
+class Card(CardBase):
+    id: int
+    actions: List[Action]  # Use Action for existing actions
 
 
 class Cards(BaseModel):

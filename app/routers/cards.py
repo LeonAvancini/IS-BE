@@ -1,6 +1,7 @@
-from fastapi import APIRouter, Path, HTTPException
-from app.schemas.card_schemas import Cards, Card
-from app.services.card_service import get_cards, get_card_by_id, delete_card_by_id
+from fastapi import APIRouter, Path, HTTPException, Body
+from app.schemas.card_schemas import Cards, Card, CardCreate
+from app.services.card_service import get_cards, get_card_by_id, delete_card_by_id, create_card
+from typing import Annotated
 
 router = APIRouter()
 
@@ -25,3 +26,12 @@ def delete(id: int = Path(title="The ID of the card to get")):
         return f"Card with ID value {id} was deleted successfully"
     except Exception as e:
         raise HTTPException(status_code=404, detail=f"Card with ID value {id} not found")
+
+
+@router.post("/cards", tags=['Create card'])
+def create(card: Annotated[CardCreate, Body(embed=True)]):
+    try:
+        return create_card(card)
+    except Exception as e:
+        print('ERROR', e)
+        raise HTTPException(status_code=400, detail="A problem occurs creating the Card")

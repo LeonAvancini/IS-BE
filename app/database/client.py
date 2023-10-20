@@ -21,8 +21,6 @@ class DBClient:
                 return response
             raise
 
-        # @staticmethod
-
     @staticmethod
     def delete_card_by_id(id: int) -> bool:
         with db():
@@ -33,12 +31,11 @@ class DBClient:
                 return True
             raise
 
-        # def save_person(person: Persons):
-
-
-#     with db():
-#         db.session.add(person)
-#         db.session.commit()
+    @staticmethod
+    def add_card(card: Card):
+        with db():
+            db.session.add(card)
+            db.session.commit()
 
 
 db_client = DBClient()
